@@ -7,6 +7,18 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html {
+    font-size: 87.5%;
+
+    @media (min-width: 750px) {
+      font-size: 93.75%;
+    }
+
+    @media (min-width: 1080px) {
+      font-size: 100%
+    }
+  }
+
   body {
     font: 1rem 'Roboto', sans-serif;
     background: #F0F2F5;
