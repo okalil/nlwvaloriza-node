@@ -27,15 +27,9 @@ const Container = styled.div`
         justify-content: space-between;
     }
 
-    section {
-        > button {
-            background: #04d361;
-            margin: 0 auto;
-        }
-
-        hr {
-            margin: 0.5rem 0;
-        }
+    hr {
+        color: ${({ theme }) => theme.colors.hr};
+        margin: 0.5rem 0;
     }
 `;
 
@@ -68,7 +62,14 @@ const FormControl = styled.input`
     }
 `;
 
+const GreenButton = styled(Button)`
+    background: #04d361;
+    display: block;
+    margin: 0 auto;
+`;
+
 const Login: React.FC = () => {
+    document.title = "Login | Valoriza";
     const history = useHistory();
 
     async function handleSubmit(event: FormEvent) {
@@ -77,16 +78,6 @@ const Login: React.FC = () => {
         const formData = new FormData(event.target as HTMLFormElement);
 
         try {
-            // const serverResponse = await fetch("http://localhost:3333/login", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({
-            //         email: formData.get("email"),
-            //         password: formData.get("password"),
-            //     }),
-            // });
-            // const response = await serverResponse.json();
-
             const response = await api.post("/login", {
                 headers: { "Content-Type": "application/json" },
                 email: formData.get("email"),
@@ -95,8 +86,13 @@ const Login: React.FC = () => {
             localStorage.setItem("userToken", response.data);
 
             history.push("/");
-        } catch (err) {
-            console.log("Erro aqui", err.response.data.error);
+        } catch (error) {
+            if (error.response) {
+                console.log(error.response.data);
+            } else if (error.request) {
+            } else {
+                console.log("Error", error.message);
+            }
         }
     }
 
@@ -118,7 +114,7 @@ const Login: React.FC = () => {
                         <Button>Entrar</Button>
                     </Form>
                     <hr />
-                    <Button>Criar conta</Button>
+                    <GreenButton>Criar conta</GreenButton>
                 </Box>
             </Container>
         </Wrapper>

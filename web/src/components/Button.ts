@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-    display: block;
     color: white;
+    background: ${({ theme }) => theme.colors.bgBrand};
     border: 0;
     border-radius: ${({ theme }) => theme.borderRadius};
+    padding: 0.5rem 0.75rem;
     cursor: pointer;
 
     transition: filter 0.4s;
