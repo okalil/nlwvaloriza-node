@@ -1,43 +1,36 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
 
-import homeIcon from "../../assets/home.svg";
-import profile from "../../assets/profile.svg";
+import homeIcon from '../../assets/home.svg';
+import profile from '../../assets/profile.svg';
+import logout from '../../assets/logout.svg';
 
-import { Menu } from "./Menu";
-import {
-    HeaderWrapper,
-    Container,
-    Title,
-    IconButton,
-    CallToCompliment,
-    CallTitle,
-    ComplimentButton,
-} from "./styles";
+import { HeaderWrapper, Container, Title, HeaderLink, Logout } from './styles';
 
 export const Header: React.FC = () => {
-    const [isMenuOpen, setMenuState] = useState(false);
-
-    return (
-        <HeaderWrapper>
-            <Container>
-                <Title>Valoriza</Title>
-                <IconButton as={Link} to="/">
-                    <img src={homeIcon} alt="home" />
-                    <span>Home</span>
-                </IconButton>
-                <IconButton onClick={() => setMenuState(!isMenuOpen)}>
-                    <img src={profile} alt="você" width="40" />
-                    <span>Você</span>
-                </IconButton>
-
-                <Menu style={{ display: isMenuOpen ? "block" : "none" }} />
-            </Container>
-
-            <CallToCompliment>
-                <CallTitle>Quem você gostaria de valorizar hoje?</CallTitle>
-                <ComplimentButton>Valorize agora</ComplimentButton>
-            </CallToCompliment>
-        </HeaderWrapper>
-    );
+  return (
+    <HeaderWrapper>
+      <Container>
+        <Title>Valoriza</Title>
+        <HeaderLink to="/">
+          <img src={homeIcon} alt="Home" />
+          <span>Home</span>
+        </HeaderLink>
+        <HeaderLink to="/">
+          <img src={profile} alt="Eu" width="40" />
+          <span>Você</span>
+        </HeaderLink>
+      </Container>
+      <div>
+        <Logout
+          onClick={() => {
+            localStorage.removeItem('currentUser');
+          }}
+          to="/login"
+        >
+          <img src={logout} alt="Sair" />
+          <span>Sair</span>
+        </Logout>
+      </div>
+    </HeaderWrapper>
+  );
 };
