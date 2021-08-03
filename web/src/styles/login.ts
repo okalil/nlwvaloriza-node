@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button } from '../components/Button';
+import { Box } from '../components/Box';
 
 const Wrapper = styled.main`
   height: 100vh;
@@ -11,54 +11,46 @@ const Wrapper = styled.main`
 const Container = styled.div`
   width: min(85%, 1100px);
 
-  display: flex;
+  display: grid;
   gap: 1rem;
-  flex-direction: column;
+  text-align: center;
 
   @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
+    grid-template-columns: 1fr 325px;
+    text-align: start;
   }
 
   hr {
     border: 0.5px solid ${({ theme }) => theme.colors.hr};
-    margin: 0.5rem 0;
+    margin: 1rem 0;
   }
 `;
 
 const Title = styled.h1`
-  color: #9c64e2;
+  color: ${({ theme }) => theme.colors.bgBrand};
+  font-size: 2.5rem;
 `;
 
 const About = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: normal;
+`;
+
+const LoginBox = styled(Box)`
+  width: min(100%, 300px);
+  margin: 0 auto;
+
+  button {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+  }
 `;
 
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: repeat(2, 2.75rem) 2.5rem;
   gap: 1rem;
-
-  button {
-    background: ${({ theme }) => theme.colors.bgBrand};
-  }
 `;
 
-const FormControl = styled.input`
-  border: 1px solid #ddd;
-  border-radius: ${({ theme }) => theme.borderRadius};
-  padding: 0.25rem 0.5rem;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.placeholder};
-  }
-`;
-
-const GreenButton = styled(Button)`
-  background: #04d361;
-  display: block;
-  margin: 0 auto;
-`;
-
-export { Wrapper, Container, Title, About, Form, FormControl, GreenButton };
+export { Wrapper, Container, Title, About, LoginBox, Form };

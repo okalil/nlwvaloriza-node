@@ -1,24 +1,28 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 
-import { Box } from '../components/Box';
 import { Button } from '../components/Button';
+import { ButtonSecondary } from '../components/ButtonSecondary';
+import { FormControl } from '../components/FormControl';
 import {
   Wrapper,
   Container,
   Title,
   About,
+  LoginBox,
   Form,
-  FormControl,
-  GreenButton,
 } from '../styles/login';
+import { Modal } from '../components/Modal';
+import { CreateUser } from '../components/CreateUser';
 
 const Login: React.FC = () => {
   document.title = 'Login | Valoriza';
   const history = useHistory();
+
   const { setUserToken, setCurrentUserId } = useAuth();
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -50,6 +54,8 @@ const Login: React.FC = () => {
     }
   }
 
+  const [isModalOpen, setModalState] = useState(false);
+
   return (
     <Wrapper>
       <Container>
@@ -60,15 +66,27 @@ const Login: React.FC = () => {
           </About>
         </div>
 
-        <Box>
+        <LoginBox>
           <Form onSubmit={handleSubmit}>
-            <FormControl name="email" placeholder="Email" />
-            <FormControl name="password" placeholder="Senha" />
+            <FormControl name="email" placeholder="Email" required />
+            <FormControl
+              name="password"
+              placeholder="Senha"
+              type="password"
+              required
+            />
             <Button>Entrar</Button>
           </Form>
           <hr />
-          <GreenButton>Criar conta</GreenButton>
-        </Box>
+          <ButtonSecondary onClick={() => setModalState(true)}>
+            Criar nova conta
+          </ButtonSecondary>
+        </LoginBox>
+        {isModalOpen && (
+          <Modal setState={setModalState}>
+            <CreateUser setModalState={setModalState}/>
+          </Modal>
+        )}
       </Container>
     </Wrapper>
   );
