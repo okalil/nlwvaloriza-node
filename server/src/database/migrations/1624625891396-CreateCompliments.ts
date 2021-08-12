@@ -8,7 +8,7 @@ export class CreateCompliments1624625891396 implements MigrationInterface {
                 columns: [
                     { name: "id", type: "uuid", isPrimary: true },
                     { name: "user_sender", type: "uuid" },
-                    { name: "user_receiver", type: "uuid" },
+                    { name: "user_receiver", type: "uuid", isNullable: true },
                     { name: "tag_id", type: "uuid" },
                     { name: "message", type: "varchar" },
                     { name: "created_at", type: "timestamp", default: "now()" },
