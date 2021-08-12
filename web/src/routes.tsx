@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -5,9 +6,12 @@ import {
   Switch,
 } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 const Routes: React.FC = () => {
   const { userToken } = useAuth();
@@ -18,10 +22,15 @@ const Routes: React.FC = () => {
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
-        <Route path="/me">{redirectToLogin || <Profile />}</Route>
-        <Route path="/" exact>
-          {redirectToLogin || <Home />}
-        </Route>
+        <Route path="/forgot" component={ForgotPassword} />
+        <Route path="/reset_password/:token" component={ResetPassword} />
+
+        {redirectToLogin || (
+          <>
+            <Route path="/me" component={Profile} />
+            <Route path="/" exact component={Home} />
+          </>
+        )}
       </Switch>
     </Router>
   );

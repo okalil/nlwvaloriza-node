@@ -3,9 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 
-import { Button } from '../components/Button';
 import { ButtonSecondary } from '../components/ButtonSecondary';
+import { CreateUser } from '../components/CreateUser';
+import { FormButton } from '../components/FormButton';
 import { FormControl } from '../components/FormControl';
+import { LinkPrimary } from '../components/LinkPrimary';
+import { Modal } from '../components/Modal';
 import {
   Wrapper,
   Container,
@@ -14,8 +17,6 @@ import {
   LoginBox,
   Form,
 } from '../styles/login';
-import { Modal } from '../components/Modal';
-import { CreateUser } from '../components/CreateUser';
 
 const Login: React.FC = () => {
   document.title = 'Login | Valoriza';
@@ -75,7 +76,8 @@ const Login: React.FC = () => {
               type="password"
               required
             />
-            <Button>Entrar</Button>
+            <FormButton>Entrar</FormButton>
+            <LinkPrimary to="/forgot">Esqueceu sua senha?</LinkPrimary>
           </Form>
           <hr />
           <ButtonSecondary onClick={() => setModalState(true)}>
@@ -84,7 +86,7 @@ const Login: React.FC = () => {
         </LoginBox>
         {isModalOpen && (
           <Modal setState={setModalState}>
-            <CreateUser setModalState={setModalState}/>
+            <CreateUser setModalState={setModalState} />
           </Modal>
         )}
       </Container>

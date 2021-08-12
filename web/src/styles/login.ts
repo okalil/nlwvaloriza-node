@@ -39,12 +39,6 @@ const About = styled.h2`
 const LoginBox = styled(Box)`
   width: min(100%, 300px);
   margin: 0 auto;
-
-  button {
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.75rem 1rem;
-  }
 `;
 
 const Form = styled.form`

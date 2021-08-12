@@ -7,6 +7,7 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0.75rem;
+  padding-right: 2rem;
 `;
 
 const Container = styled.div`
@@ -42,6 +43,9 @@ const HeaderLink = styled(Link)`
 `;
 
 const Logout = styled(HeaderLink)`
+  position: absolute;
+  right: 1vw;
+
   display: flex;
   flex-direction: column;
   gap: 0.25rem;

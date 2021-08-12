@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Button } from './Button';
+import { FormButton } from './FormButton';
 
-export const ButtonSecondary = styled(Button)`
+export const ButtonSecondary = styled(FormButton)`
   background: #04d361;
   display: block;
   margin: 0 auto;

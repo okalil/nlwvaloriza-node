@@ -20,17 +20,15 @@ export const Header: React.FC = () => {
           <span>Você</span>
         </HeaderLink>
       </Container>
-      <div>
-        <Logout
-          onClick={() => {
-            localStorage.removeItem('currentUser');
-          }}
-          to="/login"
-        >
-          <img src={logout} alt="Sair" />
-          <span>Sair</span>
-        </Logout>
-      </div>
+      <Logout
+        onClick={() => {
+          localStorage.removeItem('currentUser');
+        }}
+        to="/login"
+      >
+        <img src={logout} alt="Sair" />
+        <span>Sair</span>
+      </Logout>
     </HeaderWrapper>
   );
 };

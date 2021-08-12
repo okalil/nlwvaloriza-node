@@ -11,23 +11,17 @@ export function ElapsedTimeByCreationDate(createdDate: number) {
   if (subtraction < oneMinute) {
     return 'Agora a pouco';
   } else if (subtraction < oneHour) {
-    const s = subtraction >= oneMinute * 2 ? 's' : '';
-    return `Há ${(subtraction / oneMinute).toFixed()} minuto${s}`;
+    return `Há ${(subtraction / oneMinute).toFixed()} min`;
   } else if (subtraction < oneDay) {
-    const s = subtraction >= oneHour * 2 ? 's' : '';
-    return `Há ${(subtraction / oneHour).toFixed()} hora${s}`;
+    return `Há ${(subtraction / oneHour).toFixed()} h`;
   } else if (subtraction < oneWeek) {
-    const s = subtraction >= oneDay * 2 ? 's' : '';
-    return `Há ${(subtraction / oneDay).toFixed()} dia${s}`;
+    return `Há ${(subtraction / oneDay).toFixed()} d`;
   } else if (subtraction < oneMonth) {
-    const s = subtraction >= oneWeek * 2 ? 's' : '';
-    return `Há ${(subtraction / oneWeek).toFixed()} semana${s}`;
+    return `Há ${(subtraction / oneWeek).toFixed()} sem`;
   } else if (subtraction < oneYear) {
-    const s = subtraction >= oneMonth * 2 ? 'meses' : 'mês';
-    return `Há ${(subtraction / oneMonth).toFixed()} ${s}`;
+    return `Há ${(subtraction / oneMonth).toFixed()} m`;
   } else if (subtraction > oneYear) {
-    const s = subtraction >= oneYear * 2 ? 's' : '';
-    return `Há ${(subtraction / oneYear).toFixed()} ano${s}`;
+    return `Há ${(subtraction / oneYear).toFixed()} a`;
   } else {
     return `Há certo tempo`;
   }
