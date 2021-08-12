@@ -1,4 +1,4 @@
-<p align="center"><img src="./.github/valoriza-logo.png" width="250px"></p>
+<p align="center"><img src="./.github/valoriza-logo.svg" width="250px"></p>
 
 # Valoriza
 
@@ -20,8 +20,8 @@ Design e front-end desenvolvidos por Andrew Magalhães, e back-end desenvolvido 
 - [x] Logout de usuários autenticados
 - [x] Listagem dos elogios/agradecimentos
 - [x] Criar novo elogio/agradacimento (reconhecimento) com mensagem e tag
+- [x] Recuperação de senha
 - [ ] Feedback de erro/carregamento para o usuário
-- [ ] Recuperação de senha
 - [ ] Likes dos reconhecimentos criados
 - [ ] Upload de imagem para perfil
 
