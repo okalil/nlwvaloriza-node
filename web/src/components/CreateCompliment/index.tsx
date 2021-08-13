@@ -6,6 +6,7 @@ import React, {
   useContext,
 } from 'react';
 import { ThemeContext } from 'styled-components';
+import { toast } from 'react-toastify';
 import Tag from '../../types/Tag';
 import User from '../../types/User';
 import profile from '../../assets/profile.svg';
@@ -56,7 +57,9 @@ export const CreateCompliment: React.FC<CreateComplimentProps> = ({
         { headers: authentication }
       );
       setModalState(false);
+      toast.success('Elogio criado com sucesso!')
     } catch (error) {
+      toast.error('Tag inválida')
       console.log(error);
     }
   };

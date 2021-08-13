@@ -1,5 +1,5 @@
-import React, { FormEvent } from 'react';
-import { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import { api } from '../services/api';
@@ -38,8 +38,10 @@ const ForgotPassword: React.FC = () => {
 
     try {
       await api.post('/forgot_password', { email });
+      toast.success('Acabamos de te enviar um link para redefinição de senha!');
       setSent(true);
     } catch (err) {
+      toast.error('Esse email não está registrado!');
       console.log(err);
     }
   };

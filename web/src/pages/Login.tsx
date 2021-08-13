@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
@@ -49,6 +50,8 @@ const Login: React.FC = () => {
 
       history.push('/');
     } catch (error) {
+      toast.error('Email ou senha incorretos!');
+
       if (error.message) {
         console.log(error.message);
       }

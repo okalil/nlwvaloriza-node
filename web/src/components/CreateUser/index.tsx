@@ -1,4 +1,5 @@
 import React, { Dispatch, FormEvent, SetStateAction } from 'react';
+import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 
 import { ButtonSecondary } from '../ButtonSecondary';
@@ -23,7 +24,9 @@ const CreateUser: React.FC<CreateUserProps> = ({ setModalState }) => {
         password,
       });
       setModalState(false);
+      toast.success('Conta criada! Faça seu login!');
     } catch (error) {
+      toast.error('Usuário já registrado.');
       console.log(error);
     }
   };

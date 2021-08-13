@@ -1,13 +1,14 @@
 import React, { FormEvent } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
+import { toast } from 'react-toastify';
+import styled from 'styled-components';
+
 import { api } from '../services/api';
 
 import { Box } from '../components/Box';
 import { FormButton } from '../components/FormButton';
 import { FormControl } from '../components/FormControl';
 import { CenteredContainer } from '../components/CenteredContainer';
-import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
 
 type ParamsType = { token: string };
 
@@ -32,13 +33,16 @@ const ResetPassword: React.FC = () => {
     const [password, repeatPassword] = formData.getAll('password');
 
     if (password !== repeatPassword) {
+      toast.error('As senhas não coincidem!');
       return;
     }
 
     try {
       await api.post('/reset_password', { password, token });
+      toast.success('Boa! Agora você já pode fazer o login!');
       history.push('/login');
     } catch (error) {
+      toast.error('Seu link é inválido ou expirou.');
       console.log(error);
     }
   };
