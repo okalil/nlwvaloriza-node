@@ -6,7 +6,6 @@ import Compliment from '../types/Compliment';
 import ComplimentObject from '../types/ComplimentDataObject';
 import profileImg from '../assets/profile.svg';
 
-import { Header } from '../components/Header';
 import { Compliments } from '../components/Compliments';
 import { Box } from '../components/Box';
 import {
@@ -84,6 +83,48 @@ const Profile: React.FC = () => {
     getData();
   }, [authentication]);
 
+  return (
+    <MainContainer>
+      <ProfileSection>
+        <SectionHeader>
+          <img src={profileImg} alt="Eu" />
+          <Status>
+            <Username>Kalil</Username>
+            <span>
+              <strong>
+                {receivedCompliments.length + sentCompliments.length + ' '}
+              </strong>
+              reconhecimentos
+            </span>
+            <div>
+              <span>
+                <strong>{receivedCompliments.length} </strong>recebidos
+              </span>
+              <span>
+                <strong>{sentCompliments.length} </strong>enviados
+              </span>
+            </div>
+          </Status>
+        </SectionHeader>
+        <h2>Reconhecimentos</h2>
+        <Recognitions
+          receivedCompliments={receivedCompliments}
+          sentCompliments={sentCompliments}
+        />
+      </ProfileSection>
+    </MainContainer>
+  );
+};
+
+type RecognitionsProps = {
+  receivedCompliments: Compliment[];
+  sentCompliments: Compliment[];
+};
+
+const Recognitions: React.FC<RecognitionsProps> = ({
+  receivedCompliments,
+  sentCompliments,
+}) => {
   const [currentFocus, setFocus] = useState<'received' | 'sent'>('received');
   const focusReceived = currentFocus === 'received';
   const focusSent = currentFocus === 'sent';
@@ -94,70 +135,38 @@ const Profile: React.FC = () => {
     zIndex: 1,
   };
 
-  // se tiver foco =>
-  //     case empty data => box
-  //     case data => list
-
   return (
-    <>
-      <Header />
-      <MainContainer>
-        <ProfileSection>
-          <SectionHeader>
-            <img src={profileImg} alt="Eu" />
-            <Status>
-              <Username>Kalil</Username>
-              <span>
-                <strong>
-                  {receivedCompliments.length + sentCompliments.length}{' '}
-                </strong>
-                reconhecimentos
-              </span>
-              <div>
-                <span>
-                  <strong>{receivedCompliments.length} </strong>recebidos
-                </span>
-                <span>
-                  <strong>{sentCompliments.length} </strong>enviados
-                </span>
-              </div>
-            </Status>
-          </SectionHeader>
-          <h2>Reconhecimentos</h2>
-          <RecognitionsContainer>
-            <Subtitle
-              style={focusReceived ? focusStyle : noFocusStyle}
-              onClick={() => setFocus('received')}
-            >
-              Recebidos
-            </Subtitle>
-            <Subtitle
-              style={focusSent ? focusStyle : noFocusStyle}
-              onClick={() => setFocus('sent')}
-            >
-              Enviados
-            </Subtitle>
-            {focusReceived &&
-              (receivedCompliments.length ? (
-                <Compliments compliments={receivedCompliments} />
-              ) : (
-                <Box>
-                  <h2>Você ainda não recebeu nenhum reconhecimento.</h2>
-                </Box>
-              ))}
+    <RecognitionsContainer>
+      <Subtitle
+        style={focusReceived ? focusStyle : noFocusStyle}
+        onClick={() => setFocus('received')}
+      >
+        Recebidos
+      </Subtitle>
+      <Subtitle
+        style={focusSent ? focusStyle : noFocusStyle}
+        onClick={() => setFocus('sent')}
+      >
+        Enviados
+      </Subtitle>
+      {focusReceived &&
+        (receivedCompliments.length ? (
+          <Compliments compliments={receivedCompliments} />
+        ) : (
+          <Box>
+            <h2>Você ainda não recebeu nenhum reconhecimento.</h2>
+          </Box>
+        ))}
 
-            {focusSent &&
-              (sentCompliments.length ? (
-                <Compliments compliments={sentCompliments} />
-              ) : (
-                <Box>
-                  <h2>Você ainda não recebeu enviou reconhecimento.</h2>
-                </Box>
-              ))}
-          </RecognitionsContainer>
-        </ProfileSection>
-      </MainContainer>
-    </>
+      {focusSent &&
+        (sentCompliments.length ? (
+          <Compliments compliments={sentCompliments} />
+        ) : (
+          <Box>
+            <h2>Você ainda não recebeu enviou reconhecimento.</h2>
+          </Box>
+        ))}
+    </RecognitionsContainer>
   );
 };
 

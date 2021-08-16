@@ -8,19 +8,19 @@ import { CoworkersList, StyledItem } from './styles';
 
 type CoworkersProps = {
   coworkers: User[];
-  setModalState: Dispatch<SetStateAction<boolean>>;
-  setModalContent: Dispatch<
-    SetStateAction<'selectReceiver' | 'createCompliment'>
-  >;
   setCurrentReceiver: Dispatch<SetStateAction<User>>;
+  setModalContent: Dispatch<SetStateAction<string>>;
+  openModal: () => void;
 };
 
 export const Coworkers: React.FC<CoworkersProps> = ({
   coworkers,
-  setModalState,
+  openModal,
   setModalContent,
   setCurrentReceiver,
 }) => {
+  // const
+
   return (
     <Box>
       <h2>Seus colegas</h2>
@@ -32,9 +32,9 @@ export const Coworkers: React.FC<CoworkersProps> = ({
               <h3>{user.name}</h3>
               <Button
                 onClick={() => {
-                  setModalState(true);
                   setModalContent('createCompliment');
                   setCurrentReceiver({ name: user.name, id: user.id });
+                  openModal();
                 }}
               >
                 Valorizar

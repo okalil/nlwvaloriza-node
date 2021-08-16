@@ -1,19 +1,24 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { SetStateAction, Dispatch } from 'react';
 import { Container, CallTitle, ComplimentButton } from './styles';
 
 type CallToComplimentProps = {
-  setModalState: Dispatch<SetStateAction<boolean>>;
+  openModal: () => void;
+  setModalContent: Dispatch<SetStateAction<string>>;
 };
 
 export const CallToCompliment: React.FC<CallToComplimentProps> = ({
-  setModalState,
+  openModal,
+  setModalContent,
 }) => {
+  const handleClick = () => {
+    openModal();
+    setModalContent('selectReceiver');
+  };
+
   return (
     <Container>
       <CallTitle>Quem você gostaria de valorizar hoje?</CallTitle>
-      <ComplimentButton onClick={() => setModalState(true)}>
-        Valorize agora
-      </ComplimentButton>
+      <ComplimentButton onClick={handleClick}>Valorize agora</ComplimentButton>
     </Container>
   );
 };

@@ -1,22 +1,42 @@
-import React, { MouseEvent, Dispatch, SetStateAction } from 'react';
+import ReactDOM from 'react-dom';
+import React, { ReactNode } from 'react';
+import { useState, useImperativeHandle, useCallback, forwardRef } from 'react';
+
 import { ModalContainer, ModalBox } from './styles';
 
+export type ModalHandles = {
+  openModal: () => void;
+  closeModal: () => void;
+};
+
 type ModalProps = {
-  setState: Dispatch<SetStateAction<boolean>>;
+  children: ReactNode;
 };
 
-export const Modal: React.FC<ModalProps> = ({ setState, children }) => {
-  const handleClose = (event: MouseEvent) => {
-    if ((event.target as HTMLElement).id !== 'background') {
-      return;
-    }
+const Modal: React.ForwardRefRenderFunction<ModalHandles, ModalProps> = (
+  { children },
+  ref
+) => {
+  const [visible, setVisible] = useState(false);
 
-    setState(false);
-  };
+  const openModal = useCallback(() => setVisible(true), []);
+  const closeModal = useCallback(() => setVisible(false), []);
 
-  return (
-    <ModalContainer id="background" onClick={handleClose}>
-      <ModalBox>{children}</ModalBox>
-    </ModalContainer>
-  );
+  useImperativeHandle(ref, () => {
+    return {
+      openModal,
+      closeModal,
+    };
+  });
+
+  return visible
+    ? ReactDOM.createPortal(
+        <ModalContainer onClick={closeModal}>
+          <ModalBox onClick={e => e.stopPropagation()}>{children}</ModalBox>
+        </ModalContainer>,
+        document.getElementById('modal') as HTMLElement
+      )
+    : null;
 };
+
+export default forwardRef(Modal);

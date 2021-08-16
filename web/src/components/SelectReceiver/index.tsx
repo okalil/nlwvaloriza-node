@@ -9,9 +9,7 @@ import User from '../../types/User';
 type SelectProps = {
   receivers: User[];
   setCurrentReceiver: Dispatch<SetStateAction<User>>;
-  setModalContent: Dispatch<
-    SetStateAction<'selectReceiver' | 'createCompliment'>
-  >;
+  setModalContent: Dispatch<SetStateAction<string>>;
 };
 
 export const SelectReceiver: React.FC<SelectProps> = ({

@@ -1,15 +1,15 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 
+import Modal, { ModalHandles } from '../components/Modal';
 import { ButtonSecondary } from '../components/ButtonSecondary';
 import { CreateUser } from '../components/CreateUser';
 import { FormButton } from '../components/FormButton';
 import { FormControl } from '../components/FormControl';
 import { LinkPrimary } from '../components/LinkPrimary';
-import { Modal } from '../components/Modal';
 import {
   Wrapper,
   Container,
@@ -18,6 +18,8 @@ import {
   LoginBox,
   Form,
 } from '../styles/login';
+import { useRef } from 'react';
+import { useCallback } from 'react';
 
 const Login: React.FC = () => {
   document.title = 'Login | Valoriza';
@@ -58,7 +60,8 @@ const Login: React.FC = () => {
     }
   }
 
-  const [isModalOpen, setModalState] = useState(false);
+  const modalRef = useRef<ModalHandles>(null);
+  const closeModal = useCallback(() => modalRef.current?.closeModal(), []);
 
   return (
     <Wrapper>
@@ -83,15 +86,14 @@ const Login: React.FC = () => {
             <LinkPrimary to="/forgot">Esqueceu sua senha?</LinkPrimary>
           </Form>
           <hr />
-          <ButtonSecondary onClick={() => setModalState(true)}>
+          <ButtonSecondary onClick={() => modalRef.current?.openModal()}>
             Criar nova conta
           </ButtonSecondary>
         </LoginBox>
-        {isModalOpen && (
-          <Modal setState={setModalState}>
-            <CreateUser setModalState={setModalState} />
-          </Modal>
-        )}
+
+        <Modal ref={modalRef}>
+          <CreateUser closeModal={closeModal} />
+        </Modal>
       </Container>
     </Wrapper>
   );

@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useState,
-  useContext,
-} from 'react';
+import React, { FormEvent, useState, useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { toast } from 'react-toastify';
 import Tag from '../../types/Tag';
@@ -23,15 +17,15 @@ import {
 } from './styles';
 
 type CreateComplimentProps = {
-  currentReceiver: User;
   tags: Tag[];
-  setModalState: Dispatch<SetStateAction<boolean>>;
+  currentReceiver: User;
+  closeModal: () => void;
 };
 
 export const CreateCompliment: React.FC<CreateComplimentProps> = ({
   tags,
   currentReceiver,
-  setModalState,
+  closeModal,
 }) => {
   const theme = useContext(ThemeContext);
   const { authentication, currentUserId } = useAuth();
@@ -56,10 +50,10 @@ export const CreateCompliment: React.FC<CreateComplimentProps> = ({
         },
         { headers: authentication }
       );
-      setModalState(false);
-      toast.success('Elogio criado com sucesso!')
+      closeModal();
+      toast.success('Elogio criado com sucesso!');
     } catch (error) {
-      toast.error('Tag inválida')
+      toast.error('Tag inválida');
       console.log(error);
     }
   };

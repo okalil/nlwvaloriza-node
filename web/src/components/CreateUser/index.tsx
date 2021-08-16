@@ -1,4 +1,4 @@
-import React, { Dispatch, FormEvent, SetStateAction } from 'react';
+import React, { FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 
@@ -6,9 +6,9 @@ import { ButtonSecondary } from '../ButtonSecondary';
 import { FormControl } from '../FormControl';
 import { Form } from './styles';
 
-type CreateUserProps = { setModalState: Dispatch<SetStateAction<boolean>> };
+type CreateUserProps = { closeModal: () => void };
 
-const CreateUser: React.FC<CreateUserProps> = ({ setModalState }) => {
+const CreateUser: React.FC<CreateUserProps> = ({ closeModal }) => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
@@ -23,7 +23,7 @@ const CreateUser: React.FC<CreateUserProps> = ({ setModalState }) => {
         email,
         password,
       });
-      setModalState(false);
+      closeModal();
       toast.success('Conta criada! Faça seu login!');
     } catch (error) {
       toast.error('Usuário já registrado.');

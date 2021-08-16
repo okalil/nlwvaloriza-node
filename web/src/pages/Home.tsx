@@ -1,43 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useEffect, memo } from 'react';
+import { useRef } from 'react';
+import { useCallback } from 'react';
+
 import { api } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import User from '../types/User';
 import Tag from '../types/Tag';
 import Compliment from '../types/Compliment';
 
-import { Header } from '../components/Header';
+import Modal, { ModalHandles } from '../components/Modal';
 import { Compliments } from '../components/Compliments';
 import { Coworkers } from '../components/Coworkers';
-import { Modal } from '../components/Modal';
 import { SelectReceiver } from '../components/SelectReceiver';
 import { CreateCompliment } from '../components/CreateCompliment';
 import { Main } from '../styles/home';
 import { CallToCompliment } from '../components/CallToCompliment';
 import { ElapsedTimeByCreationDate } from '../utils/ElapsedTime';
 
-type ModalContent = 'selectReceiver' | 'createCompliment';
+const MemoizedCallToCompliment = memo(CallToCompliment);
+const MemoizedCompliments = memo(Compliments);
+const MemoizedCoworkers = memo(Coworkers);
+const MemoizedModal = memo(Modal);
 
 const Home: React.FC = () => {
   document.title = 'Valoriza';
 
   const { authentication, userToken, currentUserId } = useAuth();
 
-  const [isModalOpen, setModalState] = useState(false);
-  const [modalContent, setModalContent] =
-    useState<ModalContent>('selectReceiver');
-
-  const [users, setUsers] = useState<User[]>([]);
+  const [coworkers, setCoworkers] = useState<User[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
   const [compliments, setCompliments] = useState<Compliment[]>([]);
 
   const [currentReceiver, setCurrentReceiver] = useState({} as User);
-
-  useEffect(() => {
-    if (!isModalOpen) {
-      setModalContent('selectReceiver');
-    }
-  }, [isModalOpen]);
 
   useEffect(() => {
     async function getData() {
@@ -84,7 +78,7 @@ const Home: React.FC = () => {
             }
           );
 
-        setUsers(users);
+        setCoworkers(users.filter((user: User) => user.id !== currentUserId));
         setTags(tags);
         setCompliments(compliments);
       } catch (error) {
@@ -95,48 +89,55 @@ const Home: React.FC = () => {
     if (userToken) {
       getData();
     }
-  }, [authentication, userToken]);
+  }, [authentication, userToken, currentUserId]);
 
-  const coworkers = users.filter(user => user.id !== currentUserId);
+  const [modalContent, setModalContent] = useState('');
+  const modalRef = useRef<ModalHandles>(null);
 
-  return userToken ? (
-    <>
-      <Header />
-      <CallToCompliment setModalState={setModalState} />
-
-      <Main>
-        <Compliments compliments={compliments} />
-        <aside>
-          <Coworkers
-            coworkers={coworkers}
-            setModalState={setModalState}
-            setModalContent={setModalContent}
+  const openModal = useCallback(() => modalRef.current?.openModal(), []);
+  const closeModal = useCallback(() => modalRef.current?.closeModal(), []);
+  const switchModalContent = () => {
+    switch (modalContent) {
+      case 'selectReceiver':
+        return (
+          <SelectReceiver
+            receivers={coworkers}
             setCurrentReceiver={setCurrentReceiver}
+            setModalContent={setModalContent}
+          />
+        );
+      case 'createCompliment':
+        return (
+          <CreateCompliment
+            tags={tags}
+            currentReceiver={currentReceiver}
+            closeModal={closeModal}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <>
+      <MemoizedCallToCompliment
+        openModal={openModal}
+        setModalContent={setModalContent}
+      />
+      <Main>
+        <MemoizedCompliments compliments={compliments} />
+        <aside>
+          <MemoizedCoworkers
+            coworkers={coworkers}
+            openModal={openModal}
+            setCurrentReceiver={setCurrentReceiver}
+            setModalContent={setModalContent}
           />
         </aside>
       </Main>
-
-      {isModalOpen && (
-        <Modal setState={setModalState}>
-          {modalContent === 'selectReceiver' && (
-            <SelectReceiver
-              receivers={coworkers}
-              setCurrentReceiver={setCurrentReceiver}
-              setModalContent={setModalContent}
-            />
-          )}
-          {modalContent === 'createCompliment' && (
-            <CreateCompliment
-              tags={tags}
-              currentReceiver={currentReceiver}
-              setModalState={setModalState}
-            />
-          )}
-        </Modal>
-      )}
+      <MemoizedModal ref={modalRef} children={switchModalContent()} />)
     </>
-  ) : (
-    <Redirect to="/login" />
   );
 };
 

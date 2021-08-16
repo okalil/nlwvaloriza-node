@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -6,6 +6,8 @@ import {
   Switch,
 } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
+
+import { Header } from './components/Header';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -26,10 +28,11 @@ const Routes: React.FC = () => {
         <Route path="/reset_password/:token" component={ResetPassword} />
 
         {redirectToLogin || (
-          <>
+          <Fragment>
+            <Header />
             <Route path="/me" component={Profile} />
             <Route path="/" exact component={Home} />
-          </>
+          </Fragment>
         )}
       </Switch>
     </Router>
